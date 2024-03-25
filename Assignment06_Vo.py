@@ -60,25 +60,24 @@ class DVD(LibraryItem):
     DVDinStock = {}
     def __init__(self, title, director, genre, subject, location):
         super().__init__(title, subject, location)
-        if self.title not in DVDinStock.keys():
-            DVDinStock.update({self.title:1})
+        if self.title not in DVD.DVDinStock.keys():
+            DVD.DVDinStock.update({self.title:1})
         else:
-            num_movies = DVDinStock.get(self.title) + 1
-            DVDinStock.setdefault(self.title, num_movies)
+            num_movies = DVD.DVDinStock.get(self.title) + 1
+            DVD.DVDinStock.setdefault(self.title, num_movies)
     
     def check_out(self):
-        if self.title in DVD.DVDinStock:
-            DVD.DVDinStock.remove(self.title)
+        if self.title in DVD.DVDinStock.keys():
+            num_movies = DVD.DVDinStock.get(self.title) - 1
+            DVD.DVDinStock.update({self.title:num_movies})
             print(f"You have checked out {self.title} from the Library. Please make sure you return the DVD with its case.")
         else:
-            print(f"{self.title} is not available for checkout.")
+            print(f"{self.title} is not held by this library for checkout.")
     
     def return_item(self):
-        if self.title not in DVD.DVDinStock:
-            DVD.DVDinStock.append(self.title)
-            print(f"You have returned {self.title} to the Library.")
-        else:
-            print(f"{self.title} is already in stock.")
+        num_movies = DVD.DVDinStock.get(self.title) + 1
+        DVD.DVDinStock.update({self.title:num_movies})
+        print(f"{self.title} has been returned to the library movie collection.")
         
 class Journal(LibraryItem):
     JournalinStock = []
@@ -88,8 +87,17 @@ class Journal(LibraryItem):
     
 # ==========================================
 def main():
+    # Book methods
     LittleWomen = Book("Little Women", "Louisa May Alcott", 10000001, "Coming of Age", "Fiction")
     LittleWomen.check_out()
     LittleWomen.return_item()
+    
+    # DVD methods
+    Barbie = DVD("Barbie", "Greta Gerwig", "Comedy", "Fantasy Comedy", "Movies Shelf 1")
+    print(DVD.DVDinStock)
+    Barbie.check_out()
+    print(DVD.DVDinStock)
+    Barbie.return_item()
+    print(DVD.DVDinStock)
     
 main()
