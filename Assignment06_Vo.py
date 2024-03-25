@@ -34,41 +34,54 @@ class LibraryItem:
         pass
     
 class Book(LibraryItem):
-    inStock = []
+    BookinStock = []
     def __init__(self, title, author, ISBN, subject, location):
         super().__init__(title, subject, location)
         self.author = author
         self.ISBN = ISBN
-        Book.inStock.append(self.title)
+        Book.BookinStock.append(self.title)
 
         
     def check_out(self):
-        if self.title in Book.inStock:
-            Book.inStock.remove(self.title)
+        if self.title in Book.BookinStock:
+            Book.BookinStock.remove(self.title)
             print(f"You have checked out {self.title} from the Library.")
         else:
             print(f"{self.title} is not available for checkout.")
     
     def return_item(self):
-        if self.title not in Book.inStock:
-            Book.inStock.append(self.title)
+        if self.title not in Book.BookinStock:
+            Book.BookinStock.append(self.title)
             print(f"You have returned {self.title} to the Library.")
         else:
             print(f"{self.title} is already in stock.")
-            
-    def print_in_stock(cls):
-        print("Books in stock:")
-        for book in cls.inStock:
-            print(book.title)
 
 class DVD(LibraryItem):
-    inStock = []
-    def __init__(self, title, subject, location):
+    DVDinStock = {}
+    def __init__(self, title, director, genre, subject, location):
         super().__init__(title, subject, location)
-        self.inStock.append(self.title)
+        if self.title not in DVDinStock.keys():
+            DVDinStock.update({self.title:1})
+        else:
+            num_movies = DVDinStock.get(self.title) + 1
+            DVDinStock.setdefault(self.title, num_movies)
+    
+    def check_out(self):
+        if self.title in DVD.DVDinStock:
+            DVD.DVDinStock.remove(self.title)
+            print(f"You have checked out {self.title} from the Library. Please make sure you return the DVD with its case.")
+        else:
+            print(f"{self.title} is not available for checkout.")
+    
+    def return_item(self):
+        if self.title not in DVD.DVDinStock:
+            DVD.DVDinStock.append(self.title)
+            print(f"You have returned {self.title} to the Library.")
+        else:
+            print(f"{self.title} is already in stock.")
         
 class Journal(LibraryItem):
-    inStock = []
+    JournalinStock = []
     def __init__(self, title, subject, location):
         super().__init__(title, subject, location)
         self.inStock.append(self.title)
