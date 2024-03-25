@@ -60,6 +60,8 @@ class DVD(LibraryItem):
     DVDinStock = {}
     def __init__(self, title, director, genre, subject, location):
         super().__init__(title, subject, location)
+        self. director = director
+        self.genre = genre
         if self.title not in DVD.DVDinStock.keys():
             DVD.DVDinStock.update({self.title:1})
         else:
@@ -81,9 +83,15 @@ class DVD(LibraryItem):
         
 class Journal(LibraryItem):
     JournalinStock = []
-    def __init__(self, title, subject, location):
+    def __init__(self, title, volume, issue_number, subject, location):
         super().__init__(title, subject, location)
-        self.inStock.append(self.title)
+        self.volume = volume
+        self.issue_number = issue_number
+        self.JournalinStock.append(list(self.title, self.volume, self.issue_number))
+    
+   # def check_out(self):
+        
+            
     
 # ==========================================
 def main():
@@ -99,5 +107,8 @@ def main():
     print(DVD.DVDinStock)
     Barbie.return_item()
     print(DVD.DVDinStock)
+    Dune.check_out()
+    
+    # Journal Methods
     
 main()
