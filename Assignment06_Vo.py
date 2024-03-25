@@ -83,17 +83,26 @@ class DVD(LibraryItem):
         
 class Journal(LibraryItem):
     JournalinStock = []
+    Journals = []
     def __init__(self, title, volume, issue_number, subject, location):
         super().__init__(title, subject, location)
         self.volume = volume
         self.issue_number = issue_number
-        self.JournalinStock.append(list(self.title, self.volume, self.issue_number))
+        self.JournalinStock.append(list([self.title, self.volume, self.issue_number]))
+        self.Journals.append(self)
         
     def check_out(self):
         for journal in Journal.JournalinStock:
-            if
+            if journal[0].replace(" ", "").lower() == self.title.replace(" ", "").lower() and journal[1] == self.volume and journal[2] == self.issue_number:
+                Journal.JournalinStock.remove(journal)
+                print(f"You have checked out {self.title} (Volume {self.volume}, Issue {self.issue_number}) from the Library.")
+                break
+                
         
     def return_item(self):
+        Journal.JournalinStock.append(list([self.title, self.volume, self.issue_number]))
+        print(f"You have returned {self.title} (Volume {self.volume}, Issue {self.issue_number}) to the Library.")
+
     
    # def check_out(self):
         
@@ -103,6 +112,8 @@ littlewomen = Book("Little Women", "Louisa May Alcott", 10000001, "Coming of Age
 animalfarm = Book("Animal Farm", "George Orwell", 10000002, "Political Satire", "Fiction")
 barbie = DVD("Barbie", "Greta Gerwig", "Comedy", "Fantasy Comedy", "Movies Shelf 1")
 dune = DVD("Dune", "Denis Villeneuve", "Fantasy", "Dystopian Fantasy", "Movies Shelf 1")
+bioscience20232 = Journal("BioScience", 2023, 2, "Biology", "Academic Journals")
+amjpsych20197 = Journal("American Journal of Psychology", 2019, 7, "Psychology", "Academic Journals")
     
 # ==========================================
 def main():
@@ -131,16 +142,20 @@ def main():
                 print(DVD.DVDinStock)
             else:
                 print("The library does not hold a movie by that name.")
-                
-   elif item_type == "journal":
-       journal_name = input("Enter the name of the journal you want to check out: ")
-       for key in Journal.JournalinStock.keys():
-           if key.replace(" ","").lower() == journal_name.replace(" ", "").lower():
-               dvd = eval(dvd_name)
-               dvd.check_out()
-               print(DVD.DVDinStock)
-           else:
-               print("The library does not hold a movie by that name.")
+    elif item_type == "journal":
+        print(Journal.JournalinStock)
+        print(Journal.Journals)
+        Journal.Journals[0].check_out
+        journal_name = input("Enter the name of the journal you want to check out: ")
+        journal_volume = input("Enter the volume (year) of the journal you want to check out: ")
+        journal_issue = input("Enter the issue of the journal volume you want to check out: ")
+        for journal in Journal.JournalinStock:
+            if journal[0].replace(" ", "").lower() == journal_name.replace(" ", "").lower():
+                if journal[1] == int(journal_volume):
+                    if journal[2] == int(journal_issue):
+                        print("Hello")
+    for journal in Journal.Journals:
+        print(journal.title)
     else:
         print("Item not found in library or cannot be checked out.")
     
