@@ -40,14 +40,26 @@ class Book(LibraryItem):
         self.author = author
         self.ISBN = ISBN
         Book.inStock.append(self.title)
+
         
     def check_out(self):
-        Book.inStock.remove(self.title)
-        return print(f"You have checked out {self.title} from the Library.")
+        if self.title in Book.inStock:
+            Book.inStock.remove(self.title)
+            print(f"You have checked out {self.title} from the Library.")
+        else:
+            print(f"{self.title} is not available for checkout.")
     
     def return_item(self):
-        Book.inStock.append(self.title)
-        return print(f"You have returned {self.title} to the Library.")
+        if self.title not in Book.inStock:
+            Book.inStock.append(self.title)
+            print(f"You have returned {self.title} to the Library.")
+        else:
+            print(f"{self.title} is already in stock.")
+            
+    def print_in_stock(cls):
+        print("Books in stock:")
+        for book in cls.inStock:
+            print(book.title)
 
 class DVD(LibraryItem):
     inStock = []
@@ -65,7 +77,6 @@ class Journal(LibraryItem):
 def main():
     LittleWomen = Book("Little Women", "Louisa May Alcott", 10000001, "Coming of Age", "Fiction")
     LittleWomen.check_out()
-    print(Book.inStock)
     LittleWomen.return_item()
     
 main()
