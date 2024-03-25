@@ -91,23 +91,44 @@ class Journal(LibraryItem):
     
    # def check_out(self):
         
-            
+# ==========================================
+# Create library of Books, DVD, and Movies
+littlewomen = Book("Little Women", "Louisa May Alcott", 10000001, "Coming of Age", "Fiction")
     
 # ==========================================
 def main():
+    print(Book.BookinStock)
+    item_type = input("Enter which you want to check out (book, DVD, or journal): ").lower()
+    book_name = input("Enter the name of the book you want to check out: ")
+    if item_type == "book":
+        for book in Book.BookinStock:
+            if book.lower() == book_name.lower():
+                book = eval(book_name.replace(" ", "").lower())
+                book.check_out()
+                break
+            if book.replace(" ", "").lower() == book_name.lower():
+                book = eval(book_name.replace(" ", "").lower())
+                book.check_out()
+                break
+            else:
+                print("The library does not hold a book by that name.")
+    else:
+        print("Book not found or cannot be checked out.")
+    
+    
     # Book methods
-    LittleWomen = Book("Little Women", "Louisa May Alcott", 10000001, "Coming of Age", "Fiction")
-    LittleWomen.check_out()
-    LittleWomen.return_item()
+    #LittleWomen = Book("Little Women", "Louisa May Alcott", 10000001, "Coming of Age", "Fiction")
+    #LittleWomen.check_out()
+   # LittleWomen.return_item()
     
     # DVD methods
-    Barbie = DVD("Barbie", "Greta Gerwig", "Comedy", "Fantasy Comedy", "Movies Shelf 1")
-    print(DVD.DVDinStock)
-    Barbie.check_out()
-    print(DVD.DVDinStock)
-    Barbie.return_item()
-    print(DVD.DVDinStock)
-    Dune.check_out()
+   # Barbie = DVD("Barbie", "Greta Gerwig", "Comedy", "Fantasy Comedy", "Movies Shelf 1")
+   # print(DVD.DVDinStock)
+   # Barbie.check_out()
+   # print(DVD.DVDinStock)
+   # Barbie.return_item()
+   # print(DVD.DVDinStock)
+   # Dune.check_out()
     
     # Journal Methods
     
