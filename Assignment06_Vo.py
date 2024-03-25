@@ -93,7 +93,6 @@ class Journal(LibraryItem):
         
     def check_out(self):
         if (self.title, self.volume, self.issue_number) in Journal.JournalinStock:
-            Journal.JournalinStock[(self.title, self.volume, self.issue_number)] = Journal.JournalinStock[(self.title, self.volume, self.issue_number)] - 1
             print(f"You have checked out {self.title}, Volume {self.volume}, Issue {self.issue_number}.")
         else:
             print(f"{self.title} (Volume {self.volume}, Issue {self.issue_number}) is not available for checkout.")
@@ -123,7 +122,7 @@ def main():
     print("The library currently has these movies:")
     print(DVD.DVDinStock)
     print(" ")
-    print("The library currently has these journals:")
+    print("The library currently has these journals. We only hold one of each Journal/Volume/Issue: ")
     journals = []
     for journal in Journal.JournalinStock.keys():
         journals.append(journal)
@@ -146,6 +145,7 @@ def main():
                     break
                 else:
                     print("The library does not hold a book by that name.")
+                    break
         elif item_type == "dvd":
             dvd_name = input("Enter the name of the DVD you want to check out: ")
             for key in DVD.DVDinStock.keys():
@@ -154,6 +154,7 @@ def main():
                     dvd.check_out()
                 else:
                     print("The library does not hold a movie by that name.")
+                    break
         elif item_type == "journal":
             journal_name = input("Enter the name of the journal you want to check out: ")
             journal_volume = int(input("Enter the volume (year) of the journal you want to check out: "))
@@ -164,10 +165,12 @@ def main():
                     and key[1] == int(journal_volume)
                     and key[2] == int(journal_issue)
                 ):
+                    print("Here")
                     value.check_out()           
                     break
                 else:
                     print(f"{journal_name}, Volume {journal_volume}, Issue {journal_issue} is not available at this library.")
+                    break
         else:
             print("Item not found in library or cannot be checked out.")
     else:
@@ -184,12 +187,18 @@ def main():
                     book = eval(book_name.replace(" ", "").lower())
                     book.return_item()
                     break
+                else:
+                    print("This item might not be from our library.")
+                    break
         elif item_type == "dvd":
             dvd_name = input("Enter the name of the DVD you want to check out: ")
             for dvd in DVD.DVDinStock.keys():
                 if dvd.replace(" ", "").lower() == dvd_name.replace(" ", "").lower():
                     dvd = eval(dvd_name.replace(" ", "").lower())
                     dvd.return_item()
+                    break
+                else:
+                    print("This item might not be from our library.")
                     break
         elif item_type == "journal":
             journal_name = input("Enter the name of the journal you want to check out: ")
@@ -205,6 +214,7 @@ def main():
                     break
                 else:
                     print("We do not hold that journal's volume and issue. No need to return.")
+                    break
     else:
         print("Thanks for coming to the library! See you again soon!")    
         
