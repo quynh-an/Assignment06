@@ -88,19 +88,29 @@ class Journal(LibraryItem):
         self.volume = volume
         self.issue_number = issue_number
         self.JournalinStock.append(list(self.title, self.volume, self.issue_number))
+        
+    def check_out(self):
+        for journal in Journal.JournalinStock:
+            if
+        
+    def return_item(self):
     
    # def check_out(self):
         
 # ==========================================
 # Create library of Books, DVD, and Movies
 littlewomen = Book("Little Women", "Louisa May Alcott", 10000001, "Coming of Age", "Fiction")
+animalfarm = Book("Animal Farm", "George Orwell", 10000002, "Political Satire", "Fiction")
+barbie = DVD("Barbie", "Greta Gerwig", "Comedy", "Fantasy Comedy", "Movies Shelf 1")
+dune = DVD("Dune", "Denis Villeneuve", "Fantasy", "Dystopian Fantasy", "Movies Shelf 1")
     
 # ==========================================
 def main():
     print(Book.BookinStock)
+    print(DVD.DVDinStock)
     item_type = input("Enter which you want to check out (book, DVD, or journal): ").lower()
-    book_name = input("Enter the name of the book you want to check out: ")
     if item_type == "book":
+        book_name = input("Enter the name of the book you want to check out: ")
         for book in Book.BookinStock:
             if book.lower() == book_name.lower():
                 book = eval(book_name.replace(" ", "").lower())
@@ -112,8 +122,28 @@ def main():
                 break
             else:
                 print("The library does not hold a book by that name.")
+    elif item_type == "dvd":
+        dvd_name = input("Enter the name of the DVD you want to check out: ")
+        for key in DVD.DVDinStock.keys():
+            if key.replace(" ","").lower() == dvd_name.replace(" ", "").lower():
+                dvd = eval(dvd_name)
+                dvd.check_out()
+                print(DVD.DVDinStock)
+            else:
+                print("The library does not hold a movie by that name.")
+                
+   elif item_type == "journal":
+       journal_name = input("Enter the name of the journal you want to check out: ")
+       for key in Journal.JournalinStock.keys():
+           if key.replace(" ","").lower() == journal_name.replace(" ", "").lower():
+               dvd = eval(dvd_name)
+               dvd.check_out()
+               print(DVD.DVDinStock)
+           else:
+               print("The library does not hold a movie by that name.")
     else:
-        print("Book not found or cannot be checked out.")
+        print("Item not found in library or cannot be checked out.")
+    
     
     
     # Book methods
