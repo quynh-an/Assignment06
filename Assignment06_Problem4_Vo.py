@@ -70,7 +70,7 @@ class DVD(LibraryItem):
     
     def check_out(self):
         if self.title in DVD.DVDinStock.keys():
-            num_movies = DVD.DVDinStock.get(self.title) - 1i
+            num_movies = DVD.DVDinStock.get(self.title) - 1
             DVD.DVDinStock.update({self.title:num_movies})
             print(f"You have checked out {self.title} from the Library. Please make sure you return the DVD with its case.")
         else:
@@ -132,7 +132,7 @@ class LibraryCatalog():
                 dvd.get_details()
                 break
         for journal, value in Journal.JournalinStock.items():
-            if journal[0].replace(" ", "").lower() == title.replace(" ", "").lower():W
+            if journal[0].replace(" ", "").lower() == title.replace(" ", "").lower():
                 value.get_details()
                 break
 
@@ -312,6 +312,9 @@ def catalog_function():
     to_return.return_item("Animal Farm")
     to_return.return_item("Barbie")
     to_return.return_item("American Journal of Psychology")
+    print(Book.BookinStock)
+    print(DVD.DVDinStock)
+    print(Journal.JournalinStock)
     
 # ========================================================= 
 main()
