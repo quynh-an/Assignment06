@@ -64,7 +64,7 @@ class Fish(Animal):
         print("I am cold-blooded.")
         
     def eat(self):
-        print
+        print("I eat plankton, algae, and more")
         
 class FlyingFish(Fish):
     def water(self):
@@ -72,6 +72,9 @@ class FlyingFish(Fish):
     
     def tail(self):
         print("I have a forked tail.")
+    
+    def eat(self):
+        print("I eat plankton and small crustaceans.")
 
 class Reptile(Animal):
     def scales(self):
@@ -79,6 +82,9 @@ class Reptile(Animal):
         
     def blood(self):
         print("I am cold-blooded.")
+    
+    def eat(self):
+        print("I eat a lot of things from insects and frogs to fishes and other reptiles.")
 
 class Snake(Reptile):
     def scales(self):
@@ -86,6 +92,9 @@ class Snake(Reptile):
     
     def ears(self):
         print("I have no ear holes.")
+        
+    def eat(self):
+        print("I eat birds, lizards, rats, squirrels, and more.")
     
 class Amphibian(Animal):
     def skin(self):
@@ -93,7 +102,13 @@ class Amphibian(Animal):
     
     def living(self):
         print("I can be in both water and on land.")
+    
+    def eat(self):
+        print("I can eat bugs, slugs, snails, and so many more.")
 
 class Frog(Amphibian):
     def skin(self):
         print("My skin is slimy, and sometimes, it can be poisonous.")
+    
+    def eat(self):
+        print("I eat flies, moths, slugs, worms, and more!")
