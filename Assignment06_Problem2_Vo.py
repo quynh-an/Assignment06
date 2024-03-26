@@ -43,38 +43,37 @@ class Rectangle(Shape):
         return print(f"The perimeter of this rectangle is {perimeter}")
     
 class Triangle(Shape):
-    def __init__(self):
+    def __init__(self, s1, s2, s3):
+        self.s1 = s1
+        self.s2 = s2
+        self.s3 = s3
         pass
     
-    def area(self, base, perpendicular):
-        if base > 0 and perpendicular > 0:
-            try:
-                area = 0.5 * float(base) * float(perpendicular)
-            except:
-                 print("Invalid inputs for triangle")   
-            return print(f"The area of this triange is {area}")
-        else:
-            print("Invalid input for triangle.")
+    def area(self):
+        perpendicular = input("What is the perpendicular? ")
+        area = 0.5 * float(perpendicular) * float(self.s1)
+        return print(f"The area of this triangle is {area}")
     
-    def perimeter(self, side1, side2, side3):
-        perimeter = side1 + side2 + side3
+    def perimeter(self,):
+        perimeter = self.s1 + self.s2 + self.s3
         return print(f"The perimeter of this triangle is {perimeter}")
 
 # =============================================
 def main():
-    triangle1 = Triangle()
+    triangle1 = Triangle(3, 4, 5)
     rectangle1 = Rectangle(4, 9)
     circle1 = Circle(4)
     
-    triangle1.area(3, 8)
-    triangle1.perimeter(3, 4, 5)
-    circle1.perimeter()
-    circle1.area()
-    rectangle1.area()
-    rectangle1.perimeter()
+    list_of_shapes = [triangle1, rectangle1, circle1]
+    
+    for i in list_of_shapes:
+        i.area()
+        i.perimeter() 
  
 # =============================================
 main()
+
+
 
     
     
