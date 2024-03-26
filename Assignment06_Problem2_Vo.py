@@ -21,12 +21,12 @@ class Circle(Shape):
     def __init__(self, radius):
         self.radius = radius
         
-    def area(self, radius):
-        area = 3.1415 * radius**2
+    def area(self):
+        area = 3.1415 * self.radius**2
         return print(f"The area of this circle is {area}")
     
-    def perimeter(self, radius):
-        circumference = 3.1415 * 2 * radius
+    def perimeter(self):
+        circumference = 3.1415 * 2 * self.radius
         return print(f"The circumference of this circle is {circumference}")
     
 class Rectangle(Shape):
@@ -34,16 +34,48 @@ class Rectangle(Shape):
         self.length = length
         self.width = width
     
-    def area(self, length, width):
-        area = length * width
+    def area(self):
+        area = self.length * self.width
         return print(f"The area of this rectangle is {area}")
     
-    def perimeter(self, length, width):
-        perimeter = length*2 + width*2
+    def perimeter(self):
+        perimeter = self.length*2 + self.width*2
         return print(f"The perimeter of this rectangle is {perimeter}")
     
 class Triangle(Shape):
+    def __init__(self):
+        pass
     
+    def area(self, base, perpendicular):
+        if base > 0 and perpendicular > 0:
+            try:
+                area = 0.5 * float(base) * float(perpendicular)
+            except:
+                 print("Invalid inputs for triangle")   
+            return print(f"The area of this triange is {area}")
+        else:
+            print("Invalid input for triangle.")
+    
+    def perimeter(self, side1, side2, side3):
+        perimeter = side1 + side2 + side3
+        return print(f"The perimeter of this triangle is {perimeter}")
+
+# =============================================
+def main():
+    triangle1 = Triangle()
+    rectangle1 = Rectangle(4, 9)
+    circle1 = Circle(4)
+    
+    triangle1.area(3, 8)
+    triangle1.perimeter(3, 4, 5)
+    circle1.perimeter()
+    circle1.area()
+    rectangle1.area()
+    rectangle1.perimeter()
+ 
+# =============================================
+main()
+
     
     
 
