@@ -51,14 +51,14 @@ class Book(LibraryItem):
     
     def return_item(self):
         if self.title in Book.BookinStock.keys():
-            Book.BookinStock[self.title] = Book.BookinStock[self.title] - 1
+            Book.BookinStock[self.title] = Book.BookinStock[self.title] + 1
             print(f"You have returned {self.title} to the Library.")
         else:
             print(f"{self.title} may not belong in this library.")
 
 class DVD(LibraryItem):
     DVDinStock = {}
-    def __init__(self, title, director, genre, subject, location):
+    def __init__(self, title, director, genre, run_time, subject, location):
         super().__init__(title, subject, location)
         self. director = director
         self.genre = genre
@@ -70,7 +70,7 @@ class DVD(LibraryItem):
     
     def check_out(self):
         if self.title in DVD.DVDinStock.keys():
-            num_movies = DVD.DVDinStock.get(self.title) - 1
+            num_movies = DVD.DVDinStock.get(self.title) - 1i
             DVD.DVDinStock.update({self.title:num_movies})
             print(f"You have checked out {self.title} from the Library. Please make sure you return the DVD with its case.")
         else:
@@ -132,7 +132,7 @@ class LibraryCatalog():
                 dvd.get_details()
                 break
         for journal, value in Journal.JournalinStock.items():
-            if journal[0].replace(" ", "").lower() == title.replace(" ", "").lower():
+            if journal[0].replace(" ", "").lower() == title.replace(" ", "").lower():W
                 value.get_details()
                 break
 
@@ -150,7 +150,7 @@ class LibraryCatalog():
                 break
         for journal, value in Journal.JournalinStock.items():
             if journal[0].replace(" ", "").lower() == title.replace(" ", "").lower():
-                volume = input("Which volume of this journal? ")
+                volume = input(f"Which volume of this journal ({title})? ")
                 issue = input("Which issue of this volume of the journal? ")
                 if journal[1] == int(volume) and journal[2] == int(issue):
                     value.check_out()
@@ -171,7 +171,7 @@ class LibraryCatalog():
                 break
         for journal, value in Journal.JournalinStock.items():
             if journal[0].replace(" ", "").lower() == title.replace(" ", "").lower():
-                volume = input("Which volume of this journal? ")
+                volume = input(f"Which volume of this journal ({title}) ")
                 issue = input("Which issue of this volume of the journal? ")
                 if journal[1] == int(volume) and journal[2] == int(issue):
                     value.return_item()
@@ -183,8 +183,8 @@ class LibraryCatalog():
 # Create library of Books, DVD, and Movies
 littlewomen = Book("Little Women", "Louisa May Alcott", 10000001, "Coming of Age", 3, "Fiction")
 animalfarm = Book("Animal Farm", "George Orwell", 10000002, "Political Satire", 4, "Fiction")
-barbie = DVD("Barbie", "Greta Gerwig", "Comedy", "Fantasy Comedy", "Movies Shelf 1")
-dune = DVD("Dune", "Denis Villeneuve", "Fantasy", "Dystopian Fantasy", "Movies Shelf 1")
+barbie = DVD("Barbie", "Greta Gerwig", "Comedy", 155, "Fantasy Comedy", "Movies Shelf 1")
+dune = DVD("Dune", "Denis Villeneuve", "Fantasy", 114, "Dystopian Fantasy", "Movies Shelf 1")
 bioscience20232 = Journal("BioScience", 2023, 2, "Biology", "Academic Journals")
 amjpsych20197 = Journal("American Journal of Psychology", 2019, 7, "Psychology", "Academic Journals")
 # ==========================================
@@ -218,15 +218,12 @@ def main():
                     break
                 else:
                     print("The library does not hold a book by that name.")
-                    break
         elif item_type == "dvd":
             dvd_name = input("Enter the name of the DVD you want to check out: ")
-            for key in DVD.DVDinStock.keys():
+            for key in DVD.DBVDinStock.keys():
                 if key.replace(" ","").lower() == dvd_name.replace(" ", "").lower():
                     dvd = eval(dvd_name)
                     dvd.check_out()
-                else:
-                    print("The library does not hold a movie by that name.")
                     break
         elif item_type == "journal":
             journal_name = input("Enter the name of the journal you want to check out: ")
@@ -238,12 +235,10 @@ def main():
                     and key[1] == int(journal_volume)
                     and key[2] == int(journal_issue)
                 ):
-                    print("Here")
                     value.check_out()           
                     break
                 else:
                     print(f"{journal_name}, Volume {journal_volume}, Issue {journal_issue} is not available at this library.")
-                    break
         else:
             print("Item not found in library or cannot be checked out.")
     else:
@@ -252,9 +247,9 @@ def main():
     # RETURNING ITEMS
     return_or_not = input("Enter the word 'return' to initiate a library item return: ")
     if return_or_not.lower() == "return":
-        item_type = input("Enter which you want to check out (book, DVD, or journal): ").lower()
+        item_type = input("Enter which you want to return (book, DVD, or journal): ").lower()
         if item_type == "book":
-            book_name = input("Enter the name of the book you want to check out: ")
+            book_name = input("Enter the name of the book you want to return: ")
             for book in Book.BookinStock.keys():
                 if book.replace(" ", "").lower() == book_name.replace(" ", "").lower():
                     book = eval(book_name.replace(" ", "").lower())
@@ -267,6 +262,7 @@ def main():
             dvd_name = input("Enter the name of the DVD you want to check out: ")
             for dvd in DVD.DVDinStock.keys():
                 if dvd.replace(" ", "").lower() == dvd_name.replace(" ", "").lower():
+                    print("1")
                     dvd = eval(dvd_name.replace(" ", "").lower())
                     dvd.return_item()
                     break
@@ -309,14 +305,16 @@ def catalog_function():
     to_check_out.check_out_item("Animal Farm")
     to_check_out.check_out_item("Barbie")
     to_check_out.check_out_item("American Journal of Psychology")
+    print(" ")
     print(Book.BookinStock)
     print(DVD.DVDinStock)
-    print(Journal.JournalinStock)
     to_return = LibraryCatalog()
     to_return.return_item("Animal Farm")
     to_return.return_item("Barbie")
-    print("hello")
     to_return.return_item("American Journal of Psychology")
     
 # ========================================================= 
+main()
+
 catalog_function()
+
