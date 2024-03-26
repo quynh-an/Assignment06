@@ -92,13 +92,14 @@ class Journal(LibraryItem):
         
     def check_out(self):
         if (self.title, self.volume, self.issue_number) in Journal.JournalinStock:
+            Journal.JournalinStock[(self.title, self.volume, self.issue_number)] = self
             print(f"You have checked out {self.title}, Volume {self.volume}, Issue {self.issue_number}.")
         else:
             print(f"{self.title} (Volume {self.volume}, Issue {self.issue_number}) is not available for checkout.")
 
         
     def return_item(self):
-        Journal.JournalinStock.append(list([self.title, self.volume, self.issue_number]))
+        Journal.JournalinStock[(self.title, self.volume, self.issue_number)] = self
         print(f"You have returned {self.title} (Volume {self.volume}, Issue {self.issue_number}) to the Library.")
 
     
@@ -111,11 +112,11 @@ class LibraryCatalog():
         print(f"Location: {self.location}")
         
     def add_item(self, item):
-        LibraryCatalog.append(item)
+        LibraryCatalog.catalog.append(item)
     
     def remove_item(self, item):
         if item in LibraryCatalog.catalog:
-            LibraryCatalog.remove(item)
+            LibraryCatalog.catalog.remove(item)
         else:
             print(f"{self.item} is not in the catalog to be removed.")
             
@@ -135,13 +136,48 @@ class LibraryCatalog():
                 value.get_details()
                 break
 
-        
-#add_item(), which adds a new LibraryItem to the catalog.
-#remove_item(), which removes an item from the catalog.
-#find_item_by_title(), which searches for an item by title and returns it.
-#check_out_item(), which checks out an item by calling its check_out() method.
-#return_item(), which returns an item by calling its return_item() method.
-
+    def check_out_item(self, title):
+        self.add_item(title)
+        for book in Book.BookinStock.keys():
+            if book.replace(" ", "").lower() == title.replace(" ", "").lower():
+                book = eval(title.replace(" ", "").lower())
+                book.check_out()
+                break
+        for dvd, value in DVD.DVDinStock.items():
+            if dvd.replace(" ", "").lower() == title.replace(" ", "").lower():
+                dvd = eval(title.replace(" ", "").lower())
+                dvd.check_out()
+                break
+        for journal, value in Journal.JournalinStock.items():
+            if journal[0].replace(" ", "").lower() == title.replace(" ", "").lower():
+                volume = input("Which volume of this journal? ")
+                issue = input("Which issue of this volume of the journal? ")
+                if journal[1] == int(volume) and journal[2] == int(issue):
+                    value.check_out()
+                    break
+                else:
+                    print("We don't have that in our catalog.")
+                
+    def return_item(self, title):
+        for book in Book.BookinStock.keys():
+            if book.replace(" ", "").lower() == title.replace(" ", "").lower():
+                book = eval(title.replace(" ", "").lower())
+                book.return_item()
+                break
+        for dvd, value in DVD.DVDinStock.items():
+            if dvd.replace(" ", "").lower() == title.replace(" ", "").lower():
+                dvd = eval(title.replace(" ", "").lower())
+                dvd.return_item()
+                break
+        for journal, value in Journal.JournalinStock.items():
+            if journal[0].replace(" ", "").lower() == title.replace(" ", "").lower():
+                volume = input("Which volume of this journal? ")
+                issue = input("Which issue of this volume of the journal? ")
+                if journal[1] == int(volume) and journal[2] == int(issue):
+                    value.return_item()
+                    break
+                else:
+                    break
         
 # ==========================================
 # Create library of Books, DVD, and Movies
@@ -151,10 +187,6 @@ barbie = DVD("Barbie", "Greta Gerwig", "Comedy", "Fantasy Comedy", "Movies Shelf
 dune = DVD("Dune", "Denis Villeneuve", "Fantasy", "Dystopian Fantasy", "Movies Shelf 1")
 bioscience20232 = Journal("BioScience", 2023, 2, "Biology", "Academic Journals")
 amjpsych20197 = Journal("American Journal of Psychology", 2019, 7, "Psychology", "Academic Journals")
-#romeoandjuliet = LibraryCatalog("Romeo and Juliet", "Romance", "Fiction")
-#thenotebook = LibraryCatalog("The Notebook", "Drama", "Fiction")
-#economics = LibraryCatalog("Journal of Economics", "Economics", "Academic Journals")
-catalog = LibraryCatalog()
 # ==========================================
 def main():
     print("The library currently has these books:")
@@ -261,10 +293,30 @@ def main():
 
 # ========================================================= 
 def catalog_function():
+    library = LibraryCatalog()
     search_item = LibraryCatalog()
+    print("Adding The Stranger")
+    library.add_item("The Stranger")
+    print(library.catalog)
+    print("Removing The Stranger")
+    library.remove_item("The Stranger")
+    print(library.catalog)
     search_item.find_item_by_title("Little Women")
     search_item.find_item_by_title("Dune")
     search_item.find_item_by_title("BioScience")
+    print(" ")
+    to_check_out = LibraryCatalog()
+    to_check_out.check_out_item("Animal Farm")
+    to_check_out.check_out_item("Barbie")
+    to_check_out.check_out_item("American Journal of Psychology")
+    print(Book.BookinStock)
+    print(DVD.DVDinStock)
+    print(Journal.JournalinStock)
+    to_return = LibraryCatalog()
+    to_return.return_item("Animal Farm")
+    to_return.return_item("Barbie")
+    print("hello")
+    to_return.return_item("American Journal of Psychology")
     
 # ========================================================= 
 catalog_function()
